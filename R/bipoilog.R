@@ -96,7 +96,6 @@
     }
    
    dpoilog <- function(n,mu,sig){
-     cat(mu,sig,'\n')
      if (length(mu)>1 | length(sig)>1) stop('vectorization of mu and sig is currently not implemented') 
      if (any((n[n!=0]/trunc(n[n!=0]))!=1)) stop('all n must be integers')
      if (any(n<0)) stop('one or several values of n are negative')
@@ -133,8 +132,8 @@
         else stop(paste('unknown error in optimization', fit$message))
       } 
       
-      fit$par <- as.numeric(fit$par)
-      est <- list('par'=c('mu'=fit$par[1],'sig'=exp(fit$par[2])),'logLval'=-fit$value,'gof'=NULL,boot=NULL)
+      fit$par <- c(as.numeric(fit$par),1-dpoilog(0,fit$par[1],exp(fit$par[2])))
+      est <- list('par'=c('mu'=fit$par[1],'sig'=exp(fit$par[2])),'p'=fit$par[3],'logLval'=-fit$value,'gof'=NULL,boot=NULL)
       
       if (nboot>0){
         cat(paste('estimates: mu: ',round(fit$par[1],3),' sig ',round(exp(fit$par[2]),3),sep=''),'\n')
@@ -207,7 +206,7 @@
         if (z[3] < (-372)) z[3] <- -372
         if (z[4] < (-372)) z[4] <- -372
         if (z[3] >   354)  z[3] <-  354
-        if (z[4] <   354)  z[4] <-  354
+        if (z[4] >   354)  z[4] <-  354
         if (zTrunc) b <- log(1-dbipoilog(0,0,z[1],z[2],exp(z[3]),exp(z[4]),invRhoTrans(z[5])))
         logL <- -sum((log(dbipoilog(un[,1],un[,2],z[1],z[2],exp(z[3]),exp(z[4]),invRhoTrans(z[5])))-b)*nr)
         return(logL)
@@ -221,9 +220,9 @@
         else stop(paste('unknown error in optimization', fit$message))
       }
       
-      fit$par <- as.numeric(fit$par)
+      fit$par <- c(as.numeric(fit$par),1-dpoilog(0,fit$par[1],exp(fit$par[3])),1-dpoilog(0,fit$par[2],exp(fit$par[4])))
       est <- list('par'=c('mu1'=fit$par[1],'mu2'=fit$par[2],'sig1'=exp(fit$par[3]),
-             'sig2'=exp(fit$par[4]),'rho'=invRhoTrans(fit$par[5])),'logLval'=-fit$value,'gof'=NULL,boot=NULL)
+             'sig2'=exp(fit$par[4]),'rho'=invRhoTrans(fit$par[5])),'p'=c(fit$par[6],fit$par[7]),'logLval'=-fit$value,'gof'=NULL,boot=NULL)
              
       if (nboot>0){
         cat(paste('estimates: mu1:',round(fit$par[1],3), ' mu2:',round(fit$par[2],3),

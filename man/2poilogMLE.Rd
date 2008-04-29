@@ -37,6 +37,8 @@ poilogMLE(n, startVals = c(mu=1, sig=2),
   A zero-truncated distribution (see \code{\link{dpoilog}}) is assumed by default (\code{zTrunc = TRUE}).
   In cases where the number of zeros is known the \code{zTrunc} argument should be set to \code{FALSE}.
   
+  The approximate fraction of species revealed by the sample is \eqn{1-q(0;\code{mu},\code{sig})}.
+  
   Parametric bootstrapping is done by simulating new sets of observations using the  estimated parameters 
   (see \code{\link{rbipoilog}}).
   
@@ -44,6 +46,7 @@ poilogMLE(n, startVals = c(mu=1, sig=2),
 }
 \value{
   \item{par }{Maximum likelihood estimates of the parameters}
+  \item{p }{Approximate fraction of species revealed by the sample}
   \item{logLval }{Log likelihood of the data given the estimated parameters}
   \item{gof }{Godness of fit measure obtained by checking the rank of logLval against logLval's obtained 
                 during the bootstrap procedure, (gof<0.05) or (gof>0.95) indicates lack of fit}
