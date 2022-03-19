@@ -1,7 +1,7 @@
 Package: poilog
 Type: Package
-Title: Poisson lognormal and bivariate Poisson lognormal distribution
-Version: 0.4
+Title: Poisson Lognormal and Bivariate Poisson Lognormal Distribution
+Version: 0.4.1
 Date: 2008-04-29
 Author: Vidar Grøtan and Steinar Engen
 Maintainer: Vidar Grøtan <vidar.grotan@bio.ntnu.no>
@@ -10,4 +10,7 @@ Description: Functions for obtaining the density, random deviates
              distribution and the bivariate Poisson lognormal distribution.
 License: GPL-3
 Encoding: latin1
-Packaged: Tue Apr 29 16:02:57 2008; vidargr
+Packaged: 2022-03-19 14:36:04 UTC; hornik
+NeedsCompilation: yes
+Repository: CRAN
+Date/Publication: 2022-03-19 14:42:12 UTC
