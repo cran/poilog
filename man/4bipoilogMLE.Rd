@@ -43,7 +43,7 @@ bipoilogMLE(n1, n2 = NULL,
   univariate Poisson lognormal distribution: \eqn{1-q(0;\code{mu1},\code{sig1})} and \eqn{1-q(0;\code{mu2},\code{sig2})}.
 
   Parametric bootstrapping could be time consuming for large data sets. If argument \code{file} is specified, e.g. 
-  \code{file =}\sQuote{\code{C:\\\\myboots.txt}}, the matrix with bootstrap estimates are copied into a tab-seperated text-file 
+  \code{file =}\sQuote{\code{C:\\\\myboots.txt}}, the matrix with bootstrap estimates are copied into a tab-separated text-file 
   providing extra backup. Bootstrapping is done by simulating new sets of observations conditioned on the observed number of 
   species (see \code{\link{rbipoilog}}).
   
@@ -52,7 +52,7 @@ bipoilogMLE(n1, n2 = NULL,
   \item{par }{Maximum likelihood estimates of the parameters}
   \item{p }{Approximate fraction of species revealed by the samples for sample 1 and 2 respectively}
   \item{logLval }{Log likelihood of the data given the estimated parameters}
-  \item{gof }{Godness of fit measure obtained by checking the rank of logLval against logLval's obtained 
+  \item{gof }{Goodness of fit measure obtained by checking the rank of logLval against logLval's obtained 
               during the bootstrap procedure, (\code{gof} < 0.05) or (\code{gof} > 0.95) indicates lack of fit}
   \item{boot }{A data frame containing the bootstrap replicates of parameters and logLval}
   
@@ -60,7 +60,7 @@ bipoilogMLE(n1, n2 = NULL,
 \references{ 
 Engen, S., R. Lande, T. Walla and P. J. DeVries. 2002. Analyzing spatial structure of communities using the two-dimensional 
             Poisson lognormal species abundance model. American Naturalist \bold{160}, 60-73.}
-\author{ Vidar \enc{Grøtan}{Grotan} \email{vidar.grotan@bio.ntnu.no}, Steinar Engen   }
+\author{ Vidar Grotan \email{vidar.grotan@ntnu.no}, Steinar Engen   }
 
 \seealso{ \code{\link{optim}}, \code{\link{dbipoilog}}, \code{\link{rbipoilog}}  }
 \examples{
@@ -71,17 +71,14 @@ xy  <- rbipoilog(S=30,mu1=1,mu2=1,sig1=2,sig2=2,rho=0.5)
 ## obtain estimates of parameters
 est <- bipoilogMLE(xy)
 
-## similar, but now with bootstrapping 
-\dontrun{est <- bipoilogMLE(xy,nboot=10)}
-
 ## change start values and request tracing information 
 ## from optimization procedure
-est <- bipoilogMLE(xy,startVals=c(2,2,4,4,0.3),
-       control=list(maxit=1000,trace=1, REPORT=1))
+\dontrun{est <- bipoilogMLE(xy,startVals=c(2,2,4,4,0.3),
+       control=list(maxit=1000,trace=1, REPORT=1))}
 
 ## effect of sampling intensity 
 xy  <- rbipoilog(S=100,mu1=1,mu2=1,sig1=2,sig2=2,rho=0.5,nu1=0.5,nu2=0.5)
-est <- bipoilogMLE(xy)
+\dontrun{est <- bipoilogMLE(xy)}
 ## the expected estimates of mu1 and mu2 are now 1-log(0.5) = 0.3 (approximately) 
 
 
@@ -89,4 +86,3 @@ est <- bipoilogMLE(xy)
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
 \keyword{ distribution }
-\encoding{latin1}

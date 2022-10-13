@@ -92,7 +92,7 @@
       
      .C('poilog2',n1=as.integer(n1),n2=as.integer(n2),mu1=as.double(mu1),mu2=as.double(mu2),
         sig1=as.double(sig1^2),sig2=as.double(sig2^2),rho=as.double(rho),nrN=as.integer(length(n1)),
-        val=double(length(n1)))$val
+        val=double(length(n1)), PACKAGE = "poilog")$val
     }
    
    dpoilog <- function(n,mu,sig){
@@ -101,7 +101,32 @@
      if (any(n<0)) stop('one or several values of n are negative')
      if (!all(is.finite(c(mu,sig)))) stop('all parameters should be finite')
      if (sig<=0) stop('sig is not larger than 0')
-     .C('poilog1',n=as.integer(n),mu=as.double(mu),sig2=as.double(sig^2),nrN=as.integer(length(n)),val=double(length(n)))$val
+     spos <- which(n<8)
+     lpos <- which(n>=8)
+     val <- rep(NA, length(n))
+     f <- function(x, N) dnorm(x, 0, 1) * dpois(N, exp(x*sig + mu))
+     if (length(spos)>0){
+       vali <- try(sapply(n[spos], function(n) integrate(f, lower=-Inf, upper=Inf, N=n)$value), silent=TRUE)
+       if (inherits(vali, "try-error")){
+         vali <- rep(1e-300, length(spos))
+         for (i in 1:length(spos)){
+           tmp <- try(integrate(f, lower=-Inf, upper=Inf, N=n[i])$value, silent=TRUE)
+           if (!inherits(tmp, "try-error")){
+             vali[i] <- tmp
+           }
+         }
+       }
+       valp <- .C("poilog1", n = as.integer(n[spos]), mu = as.double(mu),
+                  sig2 = as.double(sig^2), nrN = as.integer(length(n[spos])),
+                  val = double(length(n[spos])), PACKAGE = "poilog")$val
+       val[spos] <- apply(cbind(vali,valp),1,max)
+     }
+     if (length(lpos)>0){
+       val[lpos] <- .C("poilog1", n = as.integer(n[lpos]), mu = as.double(mu),
+                       sig2 = as.double(sig^2), nrN = as.integer(length(n[lpos])),
+                       val = double(length(n[lpos])), PACKAGE = "poilog")$val
+     }
+     val
    }
     
    poilogMLE <- function(n,startVals=c(mu=1,sig=2),nboot=0,zTrunc=TRUE,
@@ -151,7 +176,7 @@
           nr <- rep(NA,length(un))
           for (i in 1:length(un)){ nr[i] <- sum(sim%in%un[i]) }
           bfit <- try(optim(bStartVals,lnL,nr=nr,control=control,method=method),silent=TRUE)
-          if (class(bfit)!='try-error'){
+          if (inherits(bfit,'try-error')){
             count <- count+1
             bMat[count,] <- c(bfit$par[1],exp(bfit$par[2]),-bfit$value)
             if (count%in%kat) cat('   boot',count,'of',nboot,'\n')
@@ -241,7 +266,7 @@
           nr <- rep(NA,nrow(un))
           for (i in 1:nrow(un)){ nr[i] <- sum(apply(sim,1,function(x) x[1]==un[i,1] & x[2]==un[i,2])) }
           bfit <- try(optim(bStartVals,lnL,nr=nr,control=control,method=method),silent=TRUE)
-          if (class(bfit)!='try-error'){
+          if (inherits(bfit,'try-error')){
             count <- count+1
             bMat[count,] <- c(bfit$par[1],bfit$par[2],exp(bfit$par[3]),exp(bfit$par[4]),invRhoTrans(bfit$par[5]),-bfit$value)
             cat('   boot',count,'of',nboot,': ',c(bfit$par[1],bfit$par[2],exp(bfit$par[3]),

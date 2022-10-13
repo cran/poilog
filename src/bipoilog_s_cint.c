@@ -4,6 +4,7 @@
    #include <R_ext/Utils.h>
    #include <R_ext/Applic.h>
    #include <Rinternals.h>
+   #include <R_ext/Rdynload.h>
 
 
    /*function prototypes */
@@ -16,8 +17,21 @@
    double my_f2(double z,int y,int x,double my1,double my2,double sig1,double sig2,double ro,double fac);
    void my_f_vec(double *z, int n, void *p);
    void my_f2_vec(double *z, int n, void *p);
-
-
+   static void poilog2 (int *x, int *y, double *my1, double *my2, double *sig1, double *sig2, double *ro, int *nrN, double *val);
+   static void poilog1 (int *x, double *my, double *sig, int *nrN, double *val);
+     
+   static const
+   R_CMethodDef cMethods[] = {
+      {"poilog2", (DL_FUNC) &poilog2, 9},
+      {"poilog1", (DL_FUNC) &poilog1, 5},
+      NULL
+   };
+     
+   void R_init_poilog(DllInfo *dll)
+     {
+       R_registerRoutines(dll,cMethods, NULL,NULL, NULL);
+       R_useDynamicSymbols(dll, FALSE);
+     }
 /* ---------------------------------------------------------------------------*/
 
   double maxf(int x, double my, double sig)

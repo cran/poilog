@@ -14,8 +14,8 @@ lognormal distribution.
 \tabular{ll}{
 Package: \tab poilog\cr
 Type: \tab Package\cr
-Version: \tab 0.3\cr
-Date: \tab 2007-12-03\cr
+Version: \tab 0.4.2\cr
+Date: \tab 2022-10-07\cr
 License: \tab GPL-3\cr
 }
 \code{\link{dpoilog}} returns the density, \code{\link{rpoilog}} returns random 
@@ -28,10 +28,10 @@ parameters for the bivariate Poisson lognormal distribution.
 
 }
 \author{
-Vidar \enc{Grøtan}{Grotan} and Steinar Engen
+Vidar Grotan and Steinar Engen
 
 Maintainer: 
-Vidar \enc{Grøtan}{Grotan} \email{vidar.grotan@bio.ntnu.no}
+Vidar Grotan \email{vidar.grotan@ntnu.no}
 }
 \references{
 Bulmer, M. G. 1974. On fitting the Poisson lognormal distribution to species abundance data. Biometrics \bold{30}, 651-660.\cr
@@ -40,4 +40,3 @@ Engen, S., R. Lande, T. Walla and P. J. DeVries. 2002. Analyzing spatial structu
 }
 
 \keyword{ package }
-\encoding{latin1}

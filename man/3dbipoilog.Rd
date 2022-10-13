@@ -22,10 +22,10 @@ rbipoilog(S, mu1, mu2, sig1, sig2, rho, nu1=1, nu2=1,
   \item{sig1}{ standard deviation of lognormal distribution in sample 1 }
   \item{sig2}{ standard deviation of lognormal distribution in sample 2 }
   \item{rho}{ correlation among samples }
-  \item{S}{ Total number of species in both communites }
+  \item{S}{ Total number of species in both communities }
   \item{nu1}{ sampling intensity sample 1 }
   \item{nu2}{ sampling intensity sample 2 }
-  \item{condS}{ logical; if TRUE random deviates are conditonal on S }
+  \item{condS}{ logical; if TRUE random deviates are conditional on S }
   \item{keep0}{ logical; if TRUE species with count 0 in both communities are included in the random deviates }
   
   
@@ -39,7 +39,7 @@ rbipoilog(S, mu1, mu2, sig1, sig2, rho, nu1=1, nu2=1,
  
  Consider two communities jointly and assume that the log abundances among species have the binormal distribution
  with parameters (\code{mu1},\code{sig1},\code{mu2},\code{sig2},\code{rho}). If sampling intensities are 
- \code{nu1} = \code{nu2} = 1, samples from the communites will have the bivariate Poisson lognormal distribution
+ \code{nu1} = \code{nu2} = 1, samples from the communities will have the bivariate Poisson lognormal distribution
  
  \deqn{ P(N_1 = \code{n1}, N_2 = \code{n2}; \;\code{mu1},\code{sig1},\code{mu2},\code{sig2},\code{rho}) = }{
         P(N1 = \code{n1}, N2 = \code{n2}; \code{mu1},\code{sig1},\code{mu2},\code{sig2},\code{rho}) = }
@@ -62,7 +62,7 @@ rbipoilog(S, mu1, mu2, sig1, sig2, rho, nu1=1, nu2=1,
 }
 \references{ Engen, S., R. Lande, T. Walla and P. J. DeVries. 2002. Analyzing spatial structure of communities using the two-dimensional 
             Poisson lognormal species abundance model. American Naturalist \bold{160}, 60-73. }
-\author{ Vidar \enc{Grøtan}{Grotan} \email{vidar.grotan@bio.ntnu.no} and Steinar Engen   }
+\author{ Vidar Grotan \email{vidar.grotan@ntnu.no} and Steinar Engen   }
 
 \seealso{ \code{\link{bipoilogMLE}} for maximum likelihood estimation }
 \examples{
@@ -100,4 +100,3 @@ hist(replicate(1000,sum(rbipoilog(S=50,mu1=0,mu2=0,sig1=1,sig2=2,rho=0.7))),
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
 \keyword{ distribution }
-\encoding{latin1}
