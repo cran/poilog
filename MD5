@@ -1,4 +1,4 @@
-0213e0d89550868ee601ff2d3dc95409 *DESCRIPTION
+b530df56036e00dc3a56262179f836c5 *DESCRIPTION
 3541bf075b0c8155cb92b49a6e9cca52 *NAMESPACE
 8660ab40a53cf52f935aff093db43b61 *R/bipoilog.R
 a4c9a01ff65181ec38373b56cdfe7d63 *man/0poilog-package.Rd
@@ -6,4 +6,4 @@ bfc8f1ee2c59b920a96f1b2c317b01c0 *man/1dpoilog.Rd
 a95cb0b1f4bfd9703fe61ea17501957b *man/2poilogMLE.Rd
 4e84d6171494ebdb3c313fba0a727056 *man/3dbipoilog.Rd
 872489d1b7b09ea2580fe40dee8a4d99 *man/4bipoilogMLE.Rd
-a92225120e83a679047f50b0a7d8a6a8 *src/bipoilog_s_cint.c
+43bee0271c3102141c7d48ed2dc2cebe *src/bipoilog_s_cint.c

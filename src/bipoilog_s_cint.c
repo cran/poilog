@@ -150,8 +150,8 @@
      double reltol=0.00001;
      double abstol=0.00001;
      lenw = 4 * limit;
-     iwork =   (int *) Calloc(limit, int);
-     work = (double *) Calloc(lenw,  double);
+     iwork =   (int *) R_Calloc(limit, int);
+     work = (double *) R_Calloc(lenw,  double);
 
      m=maxf(x,my,sig);
      a=lower(x,m,my,sig);
@@ -167,8 +167,8 @@
      if (ier!=0) error("error in integration\n");
 
      val = result*(1/sqrt(2*M_PI*sig));
-     Free(iwork);
-     Free(work);
+     R_Free(iwork);
+     R_Free(work);
      return(val);
   }
 
@@ -188,8 +188,8 @@
 	 double reltol=0.00001;
 	 double abstol=0.00001;
 	 lenw = 4 * limit;
-	 iwork =   (int *) Calloc(limit, int);
-     work = (double *) Calloc(lenw,  double);
+	 iwork =   (int *) R_Calloc(limit, int);
+     work = (double *) R_Calloc(lenw,  double);
 
      m=maxf(x,my1,sig1);
      a=lower(x,m,my1,sig1);
@@ -205,8 +205,8 @@
      if (ier!=0) error("error in integration\n");
 
      val = result*(1/sqrt(2*M_PI*sig1));
-     Free(iwork);
-     Free(work);
+     R_Free(iwork);
+     R_Free(work);
 
      return(val);
 
