@@ -14,8 +14,8 @@ lognormal distribution.
 \tabular{ll}{
 Package: \tab poilog\cr
 Type: \tab Package\cr
-Version: \tab 0.4.2\cr
-Date: \tab 2022-10-07\cr
+Version: \tab 0.5.0\cr
+Date: \tab 2026-11-20\cr
 License: \tab GPL-3\cr
 }
 \code{\link{dpoilog}} returns the density, \code{\link{rpoilog}} returns random 

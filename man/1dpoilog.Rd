@@ -7,15 +7,18 @@
   Density and random generation for the Poisson lognormal distribution with parameters \code{mu} and \code{sig}.
 }
 \usage{
-dpoilog(n, mu, sig)
+dpoilog(n, mu, sig, log = FALSE)
 rpoilog(S, mu, sig, nu=1, condS=FALSE, keep0=FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
   \item{n}{ vector of observed individuals for each species }
   \item{S}{ number of species in the community }
-  \item{mu}{ mean of lognormal distribution  }
-  \item{sig}{ standard deviation of lognormal distribution }
+  \item{mu}{ mean of the log abundances (of the normal distribution of ln \emph{y}, see
+    details) }
+  \item{sig}{ standard deviation of the log abundances; for \code{dpoilog} larger than 0
+    and at most 1000 }
+  \item{log}{ logical; if TRUE the log probability is returned }
   \item{nu}{ sampling intensity, defaults to 1 }
   \item{condS}{ logical; if TRUE random deviates are conditional on S}
   \item{keep0}{ logical; if TRUE species with count 0 are included in the random deviates }
@@ -42,18 +45,43 @@ rpoilog(S, mu, sig, nu=1, condS=FALSE, keep0=FALSE)
   where \eqn{\phi(u)} is the standard normal distribution and
     
   \deqn{g_\code{n}(\code{mu},\code{sig},u) = \frac{\exp(u\,\code{sig}\,\code{n} + \code{mu}\,\code{n} - \exp(u\,\code{sig} + \code{mu}))}{\code{n}!}}{
-        g_n(\code{mu},\code{sig},u) = exp(\code{mu} \code{sig} \code{n} + \code{mu} \code{n} + exp(-\code{mu} \code{sig} + \code{mu})) / \code{n}!} 
+        g_n(\code{mu},\code{sig},u) = exp(u \code{sig} \code{n} + \code{mu} \code{n} - exp(u \code{sig} + \code{mu})) / \code{n}!}
        
    
   Since \code{S} is usually unknown, we only consider the observed number of individuals for the observed species.
   With a general sampling intensity \code{nu}, the distribution of the number of individuals then follows the
   zero-truncated Poisson lognormal distribution
     
-   \deqn{\frac{q(\code{n};\code{mu},\code{sig})}{1-q(0;\code{mu},\code{sig})}}{
-          q(\code{n}; \code{mu},\code{sig})/(1 - q(0; \code{mu},\code{sig}))}
+   \deqn{\frac{q(\code{n};\code{mu}+\ln\code{nu},\code{sig})}{1-q(0;\code{mu}+\ln\code{nu},\code{sig})}}{
+          q(\code{n}; \code{mu} + ln \code{nu},\code{sig})/(1 - q(0; \code{mu} + ln \code{nu},\code{sig}))}
+
+  The integral is computed numerically on the log scale. The error of the log
+  probability is about \eqn{10^{-8}}{1e-8} or less relative to its size, and about
+  \eqn{10^{-16}}{1e-16} or less in absolute terms where the log probability is
+  between -1 and 0 (a probability close to 1). Probabilities below about
+  \eqn{10^{-308}}{1e-308}, the smallest normal number in double precision, lose
+  precision, and those below about \eqn{5 \times 10^{-324}}{5e-324} are returned as 0;
+  use \code{log = TRUE} to obtain their logarithm, which is accurate also there.
+
+  Counts must be non-negative integers no larger than \code{.Machine$integer.max};
+  \code{mu} and \code{sig} must be single finite numbers. \code{dpoilog} requires
+  \code{sig > 0} and supports \code{sig} up to 1000, the range over which the numerical
+  integration has been validated; larger values give an error. (\code{sig = 1000}
+  spreads the abundances over a factor of \eqn{e^{1000}}{exp(1000)}, far beyond any
+  data.) \code{rpoilog} does not use the integration and accepts any \code{sig >= 0}
+  for which the Poisson intensities it draws stay below the largest double (a log
+  intensity \code{mu} + ln \code{nu} + \code{sig} \emph{u} below 709.78); otherwise it
+  stops with an error.
+  With \code{condS = TRUE} and \code{keep0 = FALSE}, \code{rpoilog} draws until
+  \code{S} positive counts are found, and stops with an error when this is impossible
+  (\code{nu = 0}) or when positive counts are too rare to be found: when the
+  simulation would draw more than \code{max(2e7, 100*S)} values. With
+  \code{keep0 = TRUE} it returns \code{S} counts, zeros included (all zeros when
+  \code{nu = 0}).
 }
 \value{
-  \command{dpoilog} returns the density\cr    
+  \command{dpoilog} returns the probabilities \eqn{q(\code{n};\code{mu},\code{sig})},
+  or their logarithms if \code{log = TRUE}\cr
   \command{rpoilog} returns random deviates
 }
 \references{ Engen, S., R. Lande, T. Walla & P. J. DeVries. 2002. Analyzing spatial structure of communities using the two-dimensional 
